@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  cd:
+    image: ${CI_REGISTRY_IMAGE:-registry.sys.eugenek.pro/devops-cd}:${CI_TAG:-local}
+    build: .
+    deploy:
+      replicas: 1
+    restart: always
+    volumes:
+      - ssh_data:/root/.ssh
+      - pipeline:/pipeline/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      CI_REGISTRY_IMAGE: ${CI_REGISTRY_IMAGE}
+      CI_TAG: ${CI_TAG}
+      SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}
+      GIT_URL: ${GIT_URL}
+      STACK_NAME: ${STACK_NAME}
+      REGISTRY_USERNAME: ${REGISTRY_USERNAME}
+      REGISTRY_PASSWORD: ${REGISTRY_PASSWORD}
+      REGISTRY_DOMAIN: ${REGISTRY_DOMAIN}
+      PUBLIC_REGISTRY_USERNAME: ${PUBLIC_REGISTRY_USERNAME}
+      PUBLIC_REGISTRY_PASSWORD: ${PUBLIC_REGISTRY_PASSWORD}
+      TRAEFIK_DOMAIN: ${TRAEFIK_DOMAIN}
+      TRAEFIK_USERNAME: ${TRAEFIK_USERNAME}
+      TRAEFIK_PASSWORD: ${TRAEFIK_PASSWORD}
+      PORTAINER_DOMAIN: ${PORTAINER_DOMAIN}
+      CERT_EMAIL: ${CERT_EMAIL}
+      MONITORING_DOMAIN: ${MONITORING_DOMAIN}
+      MONITORING_USERNAME: ${MONITORING_USERNAME}
+      MONITORING_PASSWORD: ${MONITORING_PASSWORD}
+      REGISTRY_DOMAIN: ${REGISTRY_DOMAIN}
+      REGISTRY_USER: ${REGISTRY_USER}
+      REGISTRY_PASSWORD: ${REGISTRY_PASSWORD}
+      GITEA_DOMAIN: ${GITEA_DOMAIN}
+      BRANCHES: ${BRANCHES}
+volumes: 
+  pipeline:
+  ssh_data:
